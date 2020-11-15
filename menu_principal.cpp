@@ -13,7 +13,11 @@ struct datos_medicamento {
     float precio;
 };
 ///////////////// MEDICAMENTOS///////////////////////////////
+<<<<<<< Updated upstream
 typedef struct datos_medicamento medicamento; ////para no escrivir siempre el tipo "struct datos_medicamento" lo hemos nombrado "medicamento"
+=======
+typedef struct datos_medicamento medicamento; ////para no escribir siempre el tipo "struct datos_medicamento" lo hemos nombrado "medicamento"
+>>>>>>> Stashed changes
 vector<medicamento> vmedicamentos; //// nombre de tipo VECTOR donde se almacenaran los medicamentos
 medicamento datos; ////nombre de la estructura con la que pediremos y llamaremos los datos
 ///////////////////////////////////////////////////////////////////////////////
@@ -148,5 +152,9 @@ int main() {
 
     } while (continuar);
     return 0;
+<<<<<<< Updated upstream
 }
 
+=======
+}
+>>>>>>> Stashed changes
