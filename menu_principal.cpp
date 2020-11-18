@@ -180,10 +180,10 @@ void agorden()
     for (int i=0;i<vmedicamentos.size();i++)
     {
         if (i=x){
-            datos.nombremedi == vmedicamentos[i].nombremedi;
+            datos2.nombremed2 == vmedicamentos[i].nombremedi;
             vmedicamentos[i].cantidad -= cantidadx;
-            datos.cantidad == cantidadx;
-            datos.precio == vmedicamentos[i].precio;
+            datos2.cantidad2 == cantidadx;
+            datos2.precio2 == vmedicamentos[i].precio;
             med.push(datos);
         }
     }
