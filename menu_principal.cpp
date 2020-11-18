@@ -1,5 +1,5 @@
 #include<iostream>
-#include<string>
+#include<string.h>
 #include<vector>
 #include<list>
 #include<queue>
@@ -7,20 +7,30 @@
 
 using namespace std;
 
+//Prototipo de funciones
+void agorden();
+
+struct dato_usuario{
+    string nombreusu, nombremed2;
+    int cantidad2;
+    float precio2;
+    float total;
+};
+typedef dato_usuario usuario;
+usuario datos2;
+
 struct datos_medicamento {
     string nombremedi, descripcion;
     int cantidad;
     float precio;
 };
 ///////////////// MEDICAMENTOS///////////////////////////////
-<<<<<<< Updated upstream
-typedef struct datos_medicamento medicamento; ////para no escrivir siempre el tipo "struct datos_medicamento" lo hemos nombrado "medicamento"
-=======
 typedef struct datos_medicamento medicamento; ////para no escribir siempre el tipo "struct datos_medicamento" lo hemos nombrado "medicamento"
->>>>>>> Stashed changes
 vector<medicamento> vmedicamentos; //// nombre de tipo VECTOR donde se almacenaran los medicamentos
 medicamento datos; ////nombre de la estructura con la que pediremos y llamaremos los datos
 ///////////////////////////////////////////////////////////////////////////////
+
+queue<medicamento>med;
 
 ///////////Agregando datos al vector/////////////////////////
 
@@ -75,7 +85,7 @@ void menu_admin() {
     bool continuar = true;
     do {
         cout << "1. Agregar nuevo medicamento" << endl; ////agregando nuevo medicamneto
-        cout << "2. Agregar al stock" << endl; ////agregamos mas medicamentos 
+        cout << "2. Agregar al stock" << endl; ////agregamos mas medicamentos
         cout << "3. Ver medicamentos" << endl; ////consultando vector que contiene los medicamentos
         cout << "4. Ver ordenes pendientes" << endl; ////viendo ordenes pendientes
         cout << "5. Ver ganancias" << endl; ////las ordenes ya canceladas sumando todos los totales
@@ -98,13 +108,15 @@ void menu_admin() {
                 break;
             case 5:
                 break;
-            case 6: cout << "salir" << endl;
+            case 7: cout << "salir" << endl;
                 continuar = false;
                 break;
             default: cout << "Error al ingresar datos" << endl;
         }
 
     } while (continuar);
+
+    return;
 }
 
 /////////////////MENU DE EMPLEADO/////////////////////////
@@ -112,7 +124,7 @@ void menu_empleado(){
  int opcion;
     bool continuar=true;
     do{
-        cout<<"1. Agregar orden"<<endl;
+        cout<<"\n1. Agregar orden"<<endl;
         cout<<"2. Consultar pedidos"<<endl;
         cout<<"3. Despachar clientes"<<endl;
         cout<<"4. Opcion-> salir"<<endl;
@@ -120,13 +132,13 @@ void menu_empleado(){
         cin>>opcion;
         cin.ignore();
         switch(opcion){
-            case 1: cout<<"Eligio opcion 1"<<endl; break;
+            case 1: agorden(); break;
             case 2: cout<<"Eligio opcion 2"<<endl; break;
             case 3: cout<<"Eligio opcion 3"<<endl; break;
             case 4: cout<<"salir"<<endl; continuar=false; break;
             default: cout<<"Error al ingresar datos"<<endl;
         }
-        
+
     }while(continuar);
 }
 int main() {
@@ -134,7 +146,7 @@ int main() {
     bool continuar = true;
     do {
         cout << "1. Menu Administrador" << endl;
-        cout << "2. Munu Empleado" << endl;
+        cout << "2. Menu Empleado" << endl;
         cout << "3. Apagar" << endl;
         cout << "Opcion: ";
         cin>>opcion;
@@ -149,12 +161,39 @@ int main() {
                 break;
             default: cout << "Error al ingresar datos" << endl;
         }
-
     } while (continuar);
     return 0;
-<<<<<<< Updated upstream
 }
 
-=======
+void agorden()
+{
+    int x;
+    int cantidadx;
+    char opc;
+    char opc2[]="s";
+
+    cout<<"Ingrese el nombre del cliente: "; getline(cin,datos2.nombreusu);
+    ver_medicamentos(); //Mostrar los medicamentos en el stock;
+    cout<<"\Ingrese el medicamemnto a elegir:"; cin>>x;
+    cout<<"Ingrese la cantidad:"; cin>> cantidadx;
+
+    for (int i=0;i<vmedicamentos.size();i++)
+    {
+        if (i=x){
+            datos.nombremedi == vmedicamentos[i].nombremedi;
+            vmedicamentos[i].cantidad -= cantidadx;
+            datos.cantidad == cantidadx;
+            datos.precio == vmedicamentos[i].precio;
+            med.push(datos);
+        }
+    }
+
+    cout<<"\nDesea adquirir otro producto?: "; cin>>opc;
+
+    if (strcmp(opc,opc2)==0){
+        void agorden();
+    }else{
+        return;
+    }
+
 }
->>>>>>> Stashed changes
