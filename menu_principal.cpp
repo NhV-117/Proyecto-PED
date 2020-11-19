@@ -169,12 +169,12 @@ void agorden()
 {
     int x;
     int cantidadx;
-    char opc;
+    char opc[10];
     char opc2[]="s";
 
     cout<<"Ingrese el nombre del cliente: "; getline(cin,datos2.nombreusu);
     ver_medicamentos(); //Mostrar los medicamentos en el stock;
-    cout<<"\Ingrese el medicamemnto a elegir:"; cin>>x;
+    cout<<"Ingrese el medicamemnto a elegir:"; cin>>x;
     cout<<"Ingrese la cantidad:"; cin>> cantidadx;
 
     for (int i=0;i<vmedicamentos.size();i++)
