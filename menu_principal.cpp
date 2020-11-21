@@ -76,7 +76,7 @@ void agregar_stock(){
     }
 
     if (!encontrado) {
-        cout << "El medicamento no existe";
+        cout << "\n¡El medicamento no existe!";
     }
 }
 
@@ -84,13 +84,15 @@ void menu_admin() {
     int opcion;
     bool continuar = true;
     do {
-        cout << "1. Agregar nuevo medicamento" << endl; ////agregando nuevo medicamneto
+        cout<<endl;
+        cout<<"     .:: ADMINISTRADOR ::."<<endl;
+        cout << "1. Agregar nuevo medicamento" << endl; ////agregando nuevo medicamento
         cout << "2. Agregar al stock" << endl; ////agregamos mas medicamentos
         cout << "3. Ver medicamentos" << endl; ////consultando vector que contiene los medicamentos
         cout << "4. Ver ordenes pendientes" << endl; ////viendo ordenes pendientes
         cout << "5. Ver ganancias" << endl; ////las ordenes ya canceladas sumando todos los totales
         cout << "6. Bucar medicamento" << endl;
-        cout << "7. Volver" << endl;
+        cout << "7. Volver a inicio" << endl;
         cout << "Opcion: ";
         cin>>opcion;
         cin.ignore();
@@ -108,10 +110,11 @@ void menu_admin() {
                 break;
             case 5:
                 break;
-            case 7: cout << "salir" << endl;
+            case 7: cout << "Volviendo..." << endl;
                 continuar = false;
+                cout<<endl;
                 break;
-            default: cout << "Error al ingresar datos" << endl;
+            default: cout << "\n¡Error al ingresar datos!" << endl;
         }
 
     } while (continuar);
@@ -124,10 +127,12 @@ void menu_empleado(){
  int opcion;
     bool continuar=true;
     do{
-        cout<<"\n1. Agregar orden"<<endl;
+        cout<<endl;
+        cout<<"    .:: EMPLEADO ::."<<endl;
+        cout<<"1. Agregar orden"<<endl;
         cout<<"2. Consultar pedidos"<<endl;
         cout<<"3. Despachar clientes"<<endl;
-        cout<<"4. Opcion-> salir"<<endl;
+        cout<<"4. Volver a inicio"<<endl;
         cout<<"Opcion: ";
         cin>>opcion;
         cin.ignore();
@@ -135,16 +140,18 @@ void menu_empleado(){
             case 1: agorden(); break;
             case 2: cout<<"Eligio opcion 2"<<endl; break;
             case 3: cout<<"Eligio opcion 3"<<endl; break;
-            case 4: cout<<"salir"<<endl; continuar=false; break;
-            default: cout<<"Error al ingresar datos"<<endl;
+            case 4: cout<<"Volviendo..."<<endl; continuar=false; cout<<endl; break;
+            default: cout<<"\n¡Error al ingresar datos!"<<endl;
         }
 
     }while(continuar);
 }
+
 int main() {
     int opcion;
     bool continuar = true;
     do {
+        cout<<"     .:: INICIO ::."<<endl;
         cout << "1. Menu Administrador" << endl;
         cout << "2. Menu Empleado" << endl;
         cout << "3. Apagar" << endl;
@@ -156,10 +163,10 @@ int main() {
                 break;
             case 2: menu_empleado();
                 break;
-            case 3: cout << "salir" << endl;
+            case 3: cout << "Apagando..." << endl;
                 continuar = false;
                 break;
-            default: cout << "Error al ingresar datos" << endl;
+            default: cout << "\n¡Error al ingresar datos!" << endl;
         }
     } while (continuar);
     return 0;
@@ -188,7 +195,7 @@ void agorden()
         }
     }
 
-    cout<<"\nDesea adquirir otro producto?: "; cin>>opc;
+    cout<<"\n¿Desea adquirir otro producto?: "; cin>>opc;
 
     if (strcmp(opc,opc2)==0){
         void agorden();
