@@ -23,6 +23,7 @@ typedef struct pedido_cliente detalle_pedido;
 vector<detalle_pedido> vpedidos;
 queue<string>cpedido;
 detalle_pedido pedido;
+list <detalle_pedido> lhistorial; /////usando para ver consultar los pedidos
 //////////////////////////////////////////////////////////////////////
 ///////////////// MEDICAMENTOS///////////////////////////////
 typedef struct datos_medicamento medicamento; ////para no escrivir siempre el tipo "struct datos_medicamento" lo hemos nombrado "medicamento"
@@ -192,13 +193,14 @@ void despachar() {
     string despacho;
     float suma;
     despacho = cpedido.front();
-     cout << "****************************************************************" << endl;
+    cout << "****************************************************************" << endl;
     cout << "Nombre del pedido: " << despacho << endl;
     for (int i = 0; i < vmedicamentos.size(); i++) {
         if (vpedidos[i].nombre_pedido == despacho) {
             cout << "Medicamento: " << vpedidos[i].nombre_medi << endl;
             cout << "Cantidad: " << vpedidos[i].cantidad << endl;
             suma += vpedidos[i].precio_pedido;
+            lhistorial.insert(lhistorial.end(), vpedidos[i]);
         }
     }
     cout << "****************************************************************" << endl;
@@ -217,10 +219,29 @@ void despachar() {
 
 void ver_ganancias() {
     float suma = 0;
-    for(int i=0;i<pganancia.size();i++){
-        suma+=pganancia.top();
+    for (int i = 0; i < pganancia.size(); i++) {
+        suma += pganancia.top();
     }
-    cout<<"La ganancia total es: "<<suma<<endl;
+    cout << "La ganancia total es: " << suma << endl;
+}
+
+void historial_ventas() {
+    cout << "****************************************************************" << endl;
+    for (struct pedido_cliente i : lhistorial) {
+        cout << "Nombre del pedido: " << i.nombre_pedido << endl;
+        cout << "Medicamento: " << i.nombre_medi << " Cantidad: " << i.cantidad << endl;
+    }
+    cout << "****************************************************************" << endl;
+    char letra;
+    cout<<"Desea limpiar historial?(S/N) ";
+    cin>>letra;
+    if(letra=='s'||letra=='S'){
+        lhistorial.clear();
+    }else if(letra=='n'||letra=='N'){
+    
+    }else{
+        cout<<"Error al ingresar datos"<<endl;
+    }
 }
 
 void menu_admin() {
@@ -230,10 +251,11 @@ void menu_admin() {
         cout << "1. Agregar nuevo medicamento" << endl; ////agregando nuevo medicamneto
         cout << "2. Agregar al stock" << endl; ////agregamos mas medicamentos 
         cout << "3. Ver medicamentos" << endl; ////consultando vector que contiene los medicamentos
-        cout << "4. Ver ordenes pendientes" << endl; ////viendo ordenes pendientes
+        cout << "4. Ver cola de pedidos" << endl; ////viendo ordenes pendientes
         cout << "5. Ver ganancias" << endl; ////las ordenes ya canceladas sumando todos los totales
         cout << "6. Bucar medicamento" << endl;
-        cout << "7. Volver" << endl;
+        cout << "7. Historial de ventas" << endl;
+        cout << "8. Volver" << endl;
         cout << "Opcion: ";
         cin>>opcion;
         cin.ignore();
@@ -256,7 +278,10 @@ void menu_admin() {
             case 6:
                 buscar();
                 break;
-            case 7: cout << "salir" << endl;
+            case 7:
+                historial_ventas();
+                break;
+            case 8:
                 continuar = false;
                 break;
             default: cout << "Error al ingresar datos" << endl;
@@ -280,16 +305,18 @@ void menu_empleado() {
         cin>>opcion;
         cin.ignore();
         switch (opcion) {
-            case 1:agregar_pedido();
+            case 1:
+                agregar_pedido();
                 break;
-            case 2: ver_pedidos();
+            case 2:
+                ver_pedidos();
                 break;
             case 3: buscar();
                 break;
             case 4:
                 despachar();
                 break;
-            case 5: cout << "salir" << endl;
+            case 5:
                 continuar = false;
                 break;
             default: cout << "Error al ingresar datos" << endl;
@@ -313,7 +340,7 @@ int main() {
                 break;
             case 2: menu_empleado();
                 break;
-            case 3: cout << "salir" << endl;
+            case 3: cout << "APAGANDO..." << endl;
                 continuar = false;
                 break;
             default: cout << "Error al ingresar datos" << endl;
