@@ -1,5 +1,5 @@
 #include<iostream>
-#include<string.h>
+#include<string>
 #include<vector>
 #include<list>
 #include<queue>
@@ -7,44 +7,39 @@
 
 using namespace std;
 
-//Prototipo de funciones
-void agorden();
-
-struct dato_usuario{
-    string nombreusu, nombremed2;
-    int cantidad2;
-    float precio2;
-    float total;
-};
-typedef dato_usuario usuario;
-usuario datos2;
-
 struct datos_medicamento {
     string nombremedi, descripcion;
     int cantidad;
     float precio;
 };
+
+struct pedido_cliente {
+    string nombre_pedido, nombre_medi;
+    int cantidad;
+    float precio_pedido;
+};
+///////////////////////PEDIDO DE MEDICNAS/////////////////////////////
+typedef struct pedido_cliente detalle_pedido;
+vector<detalle_pedido> vpedidos;
+queue<string>cpedido;
+detalle_pedido pedido;
+list <detalle_pedido> lhistorial; /////usando para ver consultar los pedidos
+//////////////////////////////////////////////////////////////////////
 ///////////////// MEDICAMENTOS///////////////////////////////
-typedef struct datos_medicamento medicamento; ////para no escribir siempre el tipo "struct datos_medicamento" lo hemos nombrado "medicamento"
+typedef struct datos_medicamento medicamento; ////para no escrivir siempre el tipo "struct datos_medicamento" lo hemos nombrado "medicamento"
 vector<medicamento> vmedicamentos; //// nombre de tipo VECTOR donde se almacenaran los medicamentos
 medicamento datos; ////nombre de la estructura con la que pediremos y llamaremos los datos
 ///////////////////////////////////////////////////////////////////////////////
-
-queue<medicamento>med;
-
+stack<float>pganancia; ////guardando el total al despachar
 ///////////Agregando datos al vector/////////////////////////
 
 void nuevomedicamento() {
-<<<<<<< Updated upstream
-=======
     cin.ignore();
->>>>>>> Stashed changes
     cout << "Ingresa nombre del medicamento:";
     getline(cin, datos.nombremedi);
+
+    do{
     cout << "Ingresa cantidad del medicamento: ";
-<<<<<<< Updated upstream
-    cin >> datos.cantidad;
-=======
     while(!(cin>>datos.cantidad)){
         cout<<"Ingrese una cantidad por favor: ";
         cin.clear();
@@ -53,9 +48,13 @@ void nuevomedicamento() {
     }while(datos.cantidad<=0);
     cin.ignore();
     do{
->>>>>>> Stashed changes
     cout << "Ingresa Precio del medicamento (en $): ";
-    cin >> datos.precio;
+    while(!(cin>>datos.precio)){
+        cout<<"Ingrese una cantidad por favor: ";
+        cin.clear();
+        cin.ignore(132,'\n');
+    };
+    }while(datos.precio<=0);
     cin.ignore();
     cout << "Agrega una descripcion del medicamento: ";
     getline(cin, datos.descripcion);
@@ -66,23 +65,18 @@ void nuevomedicamento() {
 /////////////////////////////////////////////////////////////////////////////
 
 //////////// CONSULTANDO vector vmedicamentos/////////////////////////////////////////
+
 void ver_medicamentos() {
+    cout << "**********************************************************************************************" << endl;
     for (int i = 0; i < vmedicamentos.size(); i++) {
         cout << "Nombre del medicamento: " << vmedicamentos[i].nombremedi << endl;
         cout << "Cantidad: " << vmedicamentos[i].cantidad << "\t" << "Precio: " << vmedicamentos[i].precio << " $" << endl;
         cout << "Descripcion: " << vmedicamentos[i].descripcion << endl;
-        cout<<"********************************************************************************************"<<endl;
+        cout << "**********************************************************************************************" << endl;
     }
 }
+///////////////////////////////EDITANDO(agregando al stock exitente)//////////////////////////////////////////////////////
 
-<<<<<<< Updated upstream
-void agregar_stock(){
-    string nombreedit;
-    int val=0;
-    cout<<"Ingrega nombre del medicamento a agregar: ";
-    getline(cin,nombreedit);
-     bool encontrado = false;
-=======
 void agregar_stock() {
     cin.ignore();
     string nombreedit;
@@ -91,22 +85,24 @@ void agregar_stock() {
     cout << "Ingrega nombre del medicamento a agregar: ";
     getline(cin, nombreedit);
     bool encontrado = false;
->>>>>>> Stashed changes
     for (auto & vmedicamentos2 : vmedicamentos) {
         if (vmedicamentos2.nombremedi == nombreedit) {
             cout << "Nombre: " << vmedicamentos2.nombremedi << endl;
             cout << "Cantidad: " << vmedicamentos2.cantidad << "\t" << "Precio: " << vmedicamentos2.precio << " $" << endl;
-          cout << "Escribe cantidad de medicamento: "; cin>>val;
-          vmedicamentos2.cantidad+=val;
+        do{
+            cout << "Escribe cantidad de medicamento: ";
+            cin>>val;
+        }while(val<=0);
+
+            vmedicamentos2.cantidad += val;
             encontrado = true;
+
+            cout<<"Medicamento agregado al stock"<<endl;
             break;
         }
     }
 
     if (!encontrado) {
-<<<<<<< Updated upstream
-        cout << "\n¡El medicamento no existe!";
-=======
         cout << "El medicamento no existe"<<endl;
     }
 }
@@ -129,16 +125,34 @@ void buscar() {
         }
     }
 }
+bool id_pedido(string nombre){
+ bool encontrado = true;
+    for (int i = 0; i < vpedidos.size(); i++) {
+        if (vpedidos[i].nombre_pedido == nombre) {
+            encontrado = false;
+            break;
+        }
+    }
+    if (encontrado){
+        return encontrado;
+    }
+    else{
+        return encontrado;
+    }
+}
 
 void agregar_pedido() {
     ///////////////variables a usar y guardar valores//////////////
     string nom_pedido, nom_medi;
     char decicion;
+    bool id;
     int existentes, cant_pedido;
     float precio_prod;
     cout << "Ingrega nombre del cliente: ";
     getline(cin, pedido.nombre_pedido);
     nom_pedido = pedido.nombre_pedido; /////guardamos nombre en una variable
+    id=id_pedido(nom_pedido);
+    if(id==true){
     do {///preguntar si quiere continuar usando "do while"
         ver_medicamentos();
         cout << "Ingresa nombre del medicamento: ";
@@ -155,12 +169,8 @@ void agregar_pedido() {
         if (encontrado) {
             pedido.nombre_medi = nom_medi;
             cout << "Ingresa cantidad a llevar: ";
-            ////////guardando en una variable la cantidad y validando
-            while(!(cin>>cant_pedido)){
-                cout<<"Digite un caracter valido: ";
-                cin.clear();
-                cin.ignore(132,'\n');
-            }
+            cin>>cant_pedido; ////////guardando en una variable la cantidad
+            cin.ignore();
             if (existentes >= cant_pedido && cant_pedido > 0) {////validando
                 existentes -= cant_pedido; ////operando los valores existentes con los que llevara el cliente
                 bool encontrado = false;
@@ -203,6 +213,9 @@ void agregar_pedido() {
     }
     cout << "Total: " << suma << endl;
     cout << "****************************************************************" << endl;
+    }else{
+    cout<<"Ese cliente ya existe,ingresa otro nombre"<<endl;
+    }
 }
 
 void ver_pedidos() {
@@ -273,7 +286,6 @@ void historial_ventas() {
 
     }else{
         cout<<"Error al ingresar datos"<<endl;
->>>>>>> Stashed changes
     }
 }
 
@@ -281,18 +293,22 @@ void menu_admin() {
     int opcion;
     bool continuar = true;
     do {
-        cout<<endl;
-        cout<<"     .:: ADMINISTRADOR ::."<<endl;
-        cout << "1. Agregar nuevo medicamento" << endl; ////agregando nuevo medicamento
+        cout << "1. Agregar nuevo medicamento" << endl; ////agregando nuevo medicamneto
         cout << "2. Agregar al stock" << endl; ////agregamos mas medicamentos
         cout << "3. Ver medicamentos" << endl; ////consultando vector que contiene los medicamentos
-        cout << "4. Ver ordenes pendientes" << endl; ////viendo ordenes pendientes
+        cout << "4. Ver cola de pedidos" << endl; ////viendo ordenes pendientes
         cout << "5. Ver ganancias" << endl; ////las ordenes ya canceladas sumando todos los totales
         cout << "6. Bucar medicamento" << endl;
-        cout << "7. Volver a inicio" << endl;
+        cout << "7. Historial de ventas" << endl;
+        cout << "8. Volver" << endl;
         cout << "Opcion: ";
-        cin>>opcion;
-        cin.ignore();
+
+        while(!(cin>>opcion)){
+            cout<<"Error:Ingrese un caracter valido: ";
+            cin.clear();
+            cin.ignore(132,'\n');
+        };
+
         switch (opcion) {
             case 1:
                 nuevomedicamento();
@@ -304,104 +320,90 @@ void menu_admin() {
                 ver_medicamentos();
                 break;
             case 4:
+                ver_pedidos();
                 break;
             case 5:
+                ver_ganancias();
                 break;
-            case 7: cout << "Volviendo..." << endl;
+            case 6:
+                buscar();
+                break;
+            case 7:
+                historial_ventas();
+                break;
+            case 8:
                 continuar = false;
-                cout<<endl;
                 break;
-            default: cout << "\n¡Error al ingresar datos!" << endl;
+            default: cout << "Error al ingresar datos" << endl;
         }
 
     } while (continuar);
 
-<<<<<<< Updated upstream
-    return;
-=======
     system("cls");
->>>>>>> Stashed changes
 }
 
 /////////////////MENU DE EMPLEADO/////////////////////////
-void menu_empleado(){
- int opcion;
-    bool continuar=true;
-    do{
-        cout<<endl;
-        cout<<"    .:: EMPLEADO ::."<<endl;
-        cout<<"1. Agregar orden"<<endl;
-        cout<<"2. Consultar pedidos"<<endl;
-        cout<<"3. Despachar clientes"<<endl;
-        cout<<"4. Volver a inicio"<<endl;
-        cout<<"Opcion: ";
+
+void menu_empleado() {
+    int opcion;
+    bool continuar = true;
+    do {
+        cout << "1. Agregar orden" << endl;
+        cout << "2. Consultar pedidos" << endl;
+        cout << "3. Buscar medicamento" << endl;
+        cout << "4. Despachar clientes" << endl;
+        cout << "5. Volver" << endl;
+        cout << "Opcion: ";
         cin>>opcion;
         cin.ignore();
-        switch(opcion){
-            case 1: agorden(); break;
-            case 2: cout<<"Eligio opcion 2"<<endl; break;
-            case 3: cout<<"Eligio opcion 3"<<endl; break;
-            case 4: cout<<"Volviendo..."<<endl; continuar=false; cout<<endl; break;
-            default: cout<<"\n¡Error al ingresar datos!"<<endl;
+        switch (opcion) {
+            case 1:
+                agregar_pedido();
+                break;
+            case 2:
+                ver_pedidos();
+                break;
+            case 3: buscar();
+                break;
+            case 4:
+                despachar();
+                break;
+            case 5:
+                continuar = false;
+                break;
+            default: cout << "Error al ingresar datos" << endl;
         }
 
-    }while(continuar);
+    } while (continuar);
 }
 
 int main() {
     int opcion;
     bool continuar = true;
     do {
-        cout<<"     .:: INICIO ::."<<endl;
         cout << "1. Menu Administrador" << endl;
         cout << "2. Menu Empleado" << endl;
         cout << "3. Apagar" << endl;
         cout << "Opcion: ";
-        cin>>opcion;
-        cin.ignore();
+
+        while(!(cin>>opcion)){
+            cout<<"Error:Ingrese un caracter valido: ";
+            cin.clear();
+            cin.ignore(132,'\n');
+        };
+
         switch (opcion) {
             case 1: menu_admin();
                 break;
             case 2: menu_empleado();
                 break;
-            case 3: cout << "Apagando..." << endl;
+            case 3: cout << "APAGANDO..." << endl;
                 continuar = false;
                 break;
-            default: cout << "\n¡Error al ingresar datos!" << endl;
+            default: cout << "Error al ingresar datos" << endl;
         }
+
     } while (continuar);
     return 0;
 }
 
-void agorden()
-{
-    int x;
-    int cantidadx;
-    char opc[10];
-    char opc2[]="s";
-
-    cout<<"Ingrese el nombre del cliente: "; getline(cin,datos2.nombreusu);
-    ver_medicamentos(); //Mostrar los medicamentos en el stock;
-    cout<<"Ingrese el medicamemnto a elegir:"; cin>>x;
-    cout<<"Ingrese la cantidad:"; cin>> cantidadx;
-
-    for (int i=0;i<vmedicamentos.size();i++)
-    {
-        if (i=x){
-            datos2.nombremed2 == vmedicamentos[i].nombremedi;
-            vmedicamentos[i].cantidad -= cantidadx;
-            datos2.cantidad2 == cantidadx;
-            datos2.precio2 == vmedicamentos[i].precio;
-            med.push(datos);
-        }
-    }
-
-    cout<<"\n¿Desea adquirir otro producto?: "; cin>>opc;
-
-    if (strcmp(opc,opc2)==0){
-        void agorden();
-    }else{
-        return;
-    }
-
-}
