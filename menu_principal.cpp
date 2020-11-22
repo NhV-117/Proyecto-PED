@@ -34,12 +34,27 @@ stack<float>pganancia; ////guardando el total al despachar
 ///////////Agregando datos al vector/////////////////////////
 
 void nuevomedicamento() {
+    fflush(stdin); //Vaciar buffer
     cout << "Ingresa nombre del medicamento:";
     getline(cin, datos.nombremedi);
+
+    do{
     cout << "Ingresa cantidad del medicamento: ";
-    cin >> datos.cantidad;
+    while(!(cin>>datos.cantidad)){
+        cout<<"Ingrese una cantidad por favor: ";
+        cin.clear();
+        cin.ignore(132,'\n');
+    };
+    }while(datos.cantidad<=0);
+
+    do{
     cout << "Ingresa Precio del medicamento (en $): ";
-    cin >> datos.precio;
+    while(!(cin>>datos.precio)){
+        cout<<"Ingrese una cantidad por favor: ";
+        cin.clear();
+        cin.ignore(132,'\n');
+    };
+    }while(datos.precio<=0);
     cin.ignore();
     cout << "Agrega una descripcion del medicamento: ";
     getline(cin, datos.descripcion);
@@ -63,6 +78,8 @@ void ver_medicamentos() {
 void agregar_stock() {
     string nombreedit;
     int val = 0;
+
+    fflush(stdin);
     cout << "Ingrega nombre del medicamento a agregar: ";
     getline(cin, nombreedit);
     bool encontrado = false;
@@ -70,10 +87,15 @@ void agregar_stock() {
         if (vmedicamentos2.nombremedi == nombreedit) {
             cout << "Nombre: " << vmedicamentos2.nombremedi << endl;
             cout << "Cantidad: " << vmedicamentos2.cantidad << "\t" << "Precio: " << vmedicamentos2.precio << " $" << endl;
+        do{
             cout << "Escribe cantidad de medicamento: ";
             cin>>val;
+        }while(val<=0);
+
             vmedicamentos2.cantidad += val;
             encontrado = true;
+
+            cout<<"Medicamento agregado al stock"<<endl;
             break;
         }
     }
@@ -127,8 +149,12 @@ void agregar_pedido() {
         if (encontrado) {
             pedido.nombre_medi = nom_medi;
             cout << "Ingresa cantidad a llevar: ";
-            cin>>cant_pedido; ////////guardando en una variable la cantidad
-            cin.ignore();
+            ////////guardando en una variable la cantidad y validando
+            while(!(cin>>cant_pedido)){
+                cout<<"Digite un caracter valido: ";
+                cin.clear();
+                cin.ignore(132,'\n');
+            }
             if (existentes >= cant_pedido && cant_pedido > 0) {////validando
                 existentes -= cant_pedido; ////operando los valores existentes con los que llevara el cliente
                 bool encontrado = false;
@@ -238,7 +264,7 @@ void historial_ventas() {
     if(letra=='s'||letra=='S'){
         lhistorial.clear();
     }else if(letra=='n'||letra=='N'){
-    
+
     }else{
         cout<<"Error al ingresar datos"<<endl;
     }
@@ -249,7 +275,7 @@ void menu_admin() {
     bool continuar = true;
     do {
         cout << "1. Agregar nuevo medicamento" << endl; ////agregando nuevo medicamneto
-        cout << "2. Agregar al stock" << endl; ////agregamos mas medicamentos 
+        cout << "2. Agregar al stock" << endl; ////agregamos mas medicamentos
         cout << "3. Ver medicamentos" << endl; ////consultando vector que contiene los medicamentos
         cout << "4. Ver cola de pedidos" << endl; ////viendo ordenes pendientes
         cout << "5. Ver ganancias" << endl; ////las ordenes ya canceladas sumando todos los totales
@@ -257,8 +283,13 @@ void menu_admin() {
         cout << "7. Historial de ventas" << endl;
         cout << "8. Volver" << endl;
         cout << "Opcion: ";
-        cin>>opcion;
-        cin.ignore();
+
+        while(!(cin>>opcion)){
+            cout<<"Error:Ingrese un caracter valido: ";
+            cin.clear();
+            cin.ignore(132,'\n');
+        };
+
         switch (opcion) {
             case 1:
                 nuevomedicamento();
@@ -333,8 +364,13 @@ int main() {
         cout << "2. Munu Empleado" << endl;
         cout << "3. Apagar" << endl;
         cout << "Opcion: ";
-        cin>>opcion;
-        cin.ignore();
+
+        while(!(cin>>opcion)){
+            cout<<"Error:Ingrese un caracter valido: ";
+            cin.clear();
+            cin.ignore(132,'\n');
+        };
+
         switch (opcion) {
             case 1: menu_admin();
                 break;
