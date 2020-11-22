@@ -4,6 +4,7 @@
 #include<list>
 #include<queue>
 #include<stack>
+#include<algorithm>
 
 using namespace std;
 
@@ -12,6 +13,11 @@ struct datos_medicamento {
     int cantidad;
     float precio;
 };
+
+//Ordenamiento
+bool compNombre(datos_medicamento a, datos_medicamento b){
+    return a.nombremedi < b.nombremedi;
+}
 
 struct pedido_cliente {
     string nombre_pedido, nombre_medi;
@@ -37,6 +43,10 @@ void nuevomedicamento() {
     cin.ignore();
     cout << "Ingresa nombre del medicamento:";
     getline(cin, datos.nombremedi);
+
+    for (int i=0;i<datos.nombremedi.length();i++){
+        datos.nombremedi[i] = toupper(datos.nombremedi[i]);
+    }
 
     do{
     cout << "Ingresa cantidad del medicamento: ";
@@ -68,6 +78,9 @@ void nuevomedicamento() {
 
 void ver_medicamentos() {
     cout << "**********************************************************************************************" << endl;
+
+    sort(vmedicamentos.begin(),vmedicamentos.end(),compNombre);
+
     for (int i = 0; i < vmedicamentos.size(); i++) {
         cout << "Nombre del medicamento: " << vmedicamentos[i].nombremedi << endl;
         cout << "Cantidad: " << vmedicamentos[i].cantidad << "\t" << "Precio: " << vmedicamentos[i].precio << " $" << endl;
@@ -84,6 +97,11 @@ void agregar_stock() {
 
     cout << "Ingrega nombre del medicamento a agregar: ";
     getline(cin, nombreedit);
+
+    for (int i=0;i<nombreedit.length();i++){
+        nombreedit[i] = toupper(nombreedit[i]);
+    }
+
     bool encontrado = false;
     for (auto & vmedicamentos2 : vmedicamentos) {
         if (vmedicamentos2.nombremedi == nombreedit) {
@@ -91,7 +109,12 @@ void agregar_stock() {
             cout << "Cantidad: " << vmedicamentos2.cantidad << "\t" << "Precio: " << vmedicamentos2.precio << " $" << endl;
         do{
             cout << "Escribe cantidad de medicamento: ";
-            cin>>val;
+                while(!(cin>>val)){
+                    cout<<"Error:Ingrese un dato valido: ";
+                    cin.clear();
+                    cin.ignore(132,'\n');
+                };
+
         }while(val<=0);
 
             vmedicamentos2.cantidad += val;
@@ -111,6 +134,10 @@ void buscar() {
     string val;
     cout << "Nombre del medicamento: ";
     getline(cin, val);
+
+    for(int i=0;i<val.length();i++){
+        val[i] = toupper(val[i]);
+    }
 
     for (int i = 0; i < vmedicamentos.size(); i++) {
         if (vmedicamentos[i].nombremedi == val) {
@@ -150,6 +177,11 @@ void agregar_pedido() {
     float precio_prod;
     cout << "Ingrega nombre del cliente: ";
     getline(cin, pedido.nombre_pedido);
+
+    for (int i=0;i<pedido.nombre_pedido.length();i++){
+        pedido.nombre_pedido[i] = toupper(pedido.nombre_pedido[i]);
+    }
+
     nom_pedido = pedido.nombre_pedido; /////guardamos nombre en una variable
     id=id_pedido(nom_pedido);
     if(id==true){
@@ -157,6 +189,11 @@ void agregar_pedido() {
         ver_medicamentos();
         cout << "Ingresa nombre del medicamento: ";
         getline(cin, nom_medi); ////////////guardamos nombre del medicamento a ingregar en una variable
+
+        for(int i=0;i<nom_medi.length();i++){
+            nom_medi[i] = toupper(nom_medi[i]);
+        }
+
         bool encontrado = false;
         for (int i = 0; i < vmedicamentos.size(); i++) {//////////////buscamos si existe el medicamento recorriendo todo el vector de medicamentos
             if (vmedicamentos[i].nombremedi == nom_medi) {
@@ -168,9 +205,17 @@ void agregar_pedido() {
         }
         if (encontrado) {
             pedido.nombre_medi = nom_medi;
+            do{
             cout << "Ingresa cantidad a llevar: ";
-            cin>>cant_pedido; ////////guardando en una variable la cantidad
+
+                while(!(cin>>cant_pedido)){  ////////guardando en una variable la cantidad
+                    cout<<"Error:Ingrese un dato valido: ";
+                    cin.clear();
+                    cin.ignore(132,'\n');
+                }
+            }while(cant_pedido<=0);
             cin.ignore();
+
             if (existentes >= cant_pedido && cant_pedido > 0) {////validando
                 existentes -= cant_pedido; ////operando los valores existentes con los que llevara el cliente
                 bool encontrado = false;
@@ -278,8 +323,11 @@ void historial_ventas() {
     }
     cout << "****************************************************************" << endl;
     char letra;
+    do{
     cout<<"Desea limpiar historial?(S/N) ";
     cin>>letra;
+    }while((letra!='s')||(letra!='S')||(letra!='n')||letra!='N');
+
     if(letra=='s'||letra=='S'){
         lhistorial.clear();
     }else if(letra=='n'||letra=='N'){
@@ -334,7 +382,7 @@ void menu_admin() {
             case 8:
                 continuar = false;
                 break;
-            default: cout << "Error al ingresar datos" << endl;
+            default: cout << "Error al ingresar datos: " << endl;
         }
 
     } while (continuar);
@@ -371,7 +419,7 @@ void menu_empleado() {
             case 5:
                 continuar = false;
                 break;
-            default: cout << "Error al ingresar datos" << endl;
+            default: cout << "Error al ingresar datos: " << endl;
         }
 
     } while (continuar);
@@ -400,7 +448,7 @@ int main() {
             case 3: cout << "APAGANDO..." << endl;
                 continuar = false;
                 break;
-            default: cout << "Error al ingresar datos" << endl;
+            default: cout << "Error al ingresar datos: " << endl;
         }
 
     } while (continuar);
