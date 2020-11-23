@@ -39,6 +39,10 @@ medicamento datos; ////nombre de la estructura con la que pediremos y llamaremos
 stack<float>pganancia; ////guardando el total al despachar
 ///////////Agregando datos al vector/////////////////////////
 
+//Prototipo de Funciones
+void eliminar_med();
+
+
 void nuevomedicamento() {
     cin.ignore();
     cout << "Ingresa nombre del medicamento:";
@@ -348,7 +352,8 @@ void menu_admin() {
         cout << "5. Ver ganancias" << endl; ////las ordenes ya canceladas sumando todos los totales
         cout << "6. Bucar medicamento" << endl;
         cout << "7. Historial de ventas" << endl;
-        cout << "8. Volver" << endl;
+        cout << "8. Eliminar medicamento" << endl;
+        cout << "9. Volver" << endl;
         cout << "Opcion: ";
 
         while(!(cin>>opcion)){
@@ -380,6 +385,9 @@ void menu_admin() {
                 historial_ventas();
                 break;
             case 8:
+                eliminar_med();
+                break;
+            case 9:
                 continuar = false;
                 break;
             default: cout << "Error al ingresar datos: " << endl;
@@ -455,3 +463,25 @@ int main() {
     return 0;
 }
 
+void eliminar_med()
+{
+    cin.ignore();
+    string borrar;
+    cout<<"Digite el medicamento a eliminar: ";
+    getline(cin,borrar);
+
+    for (int i=0;i<borrar.length();i++){
+        borrar[i] = toupper(borrar[i]);
+    }
+
+    for (auto iter = vmedicamentos.begin(); iter != vmedicamentos.end(); ++iter){
+        if (iter->nombremedi == borrar)
+        {
+            iter = vmedicamentos.erase(iter);
+            cout<<"Elemento eliminado exitosamente!"<<endl; break;
+            cout<< endl;
+        }else{
+            cout<<"El medicamento no existe" << endl << endl;
+        }
+    }
+}
