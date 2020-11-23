@@ -399,6 +399,8 @@ void agregar_pedido()
     } 
     while (decicion == 's' || decicion == 'S');
     cpedido.push(nom_pedido); //cola
+        
+    system("cls");
 
  //FACTURA CLIENTE//
     float suma = 0;
