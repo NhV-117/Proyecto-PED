@@ -218,12 +218,19 @@ void ver_pedidos() {
 
 void ver_ganancias() {
     float suma = 0;
-    for (int i = 0; i < pganancia.size(); i++) {
+    stack<float>clon;
+    for (int i = 0; i = pganancia.size(); i++) {
         suma += pganancia.top();
+        clon.push(pganancia.top());
+        pganancia.pop();
     }
     cout << "*******************************" << endl;
     cout << "La ganancia total es: $ " << suma << endl;
     cout << "*******************************" << endl << endl;
+    for (int i = 0; i < clon.size(); i++) {
+        pganancia.push(clon.top());
+        clon.pop();
+    }
 }
 
 //BUSCAR MEDICAMENTOS EN STOCK//
@@ -419,7 +426,7 @@ void agregar_pedido() {
                     }
                     pedido.cantidad = cant_pedido; //guardando en la structura de cliente
                     pedido.precio_pedido = cant_pedido*precio_prod; //guardando en la structura de cliente
-                    vpedidos.insert(vpedidos.end(), pedido); //guardando en el vector
+                    vpedidos.insert(vpedidos.begin(), pedido); //guardando en el vector
                     cout << "Quieres ingresar mas Medicamentos(S/N): ";
                     cin>>decicion;
                     cin.ignore();
@@ -462,7 +469,7 @@ void agregar_pedido() {
 //DESPACHAR CLIENTE//
 
 void despachar() {
-    string despacho;
+     string despacho;
     float suma = 0, solo_uno = 0;
     despacho = cpedido.front();
     cout << "\n*******************************" << endl;
