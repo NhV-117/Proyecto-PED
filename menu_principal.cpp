@@ -8,7 +8,7 @@
 
 using namespace std;
 
-struct datos_medicamento 
+struct datos_medicamento
 {
     string nombremedi, descripcion;
     int cantidad;
@@ -21,7 +21,7 @@ bool compNombre(datos_medicamento a, datos_medicamento b)
     return a.nombremedi < b.nombremedi;
 };
 
-struct pedido_cliente 
+struct pedido_cliente
 {
     string nombre_pedido, nombre_medi;
     int cantidad;
@@ -32,7 +32,7 @@ typedef struct pedido_cliente detalle_pedido;
 vector<detalle_pedido> vpedidos;
 queue<string>cpedido;
 detalle_pedido pedido;
-list <detalle_pedido> lhistorial; 
+list <detalle_pedido> lhistorial;
 //usando para ver consultar los pedidos//
 
 // MEDICAMENTOS//
@@ -49,12 +49,24 @@ void eliminar_med();
 void nuevomedicamento()
 {
     cin.ignore();
+
+    bool eldato=false;
+    bool eldato2=false;
+
+    while(!eldato){
     cout << "Ingrese nombre del medicamento: ";
     getline(cin, datos.nombremedi);
 
     for (int i=0;i<datos.nombremedi.length();i++)
     {
         datos.nombremedi[i] = toupper(datos.nombremedi[i]);
+    }
+
+    if(datos.nombremedi.empty()){
+        cout<<"Por favor ingrese un dato"<<endl;
+    }else{
+        eldato = true;
+    }
     }
 
     do
@@ -83,21 +95,43 @@ void nuevomedicamento()
     while(datos.precio<=0);
 
     cin.ignore();
+    while(!eldato2){
     cout << "Agrega una descripcion del medicamento: ";
     getline(cin, datos.descripcion);
+
+        if(datos.descripcion.empty()){
+            cout<<"Por favor ingrese un dato"<<endl;
+        }else{
+            eldato2=true;
+        }
+
+    }
+
+
+
     vmedicamentos.insert(vmedicamentos.end(), datos);
     system("clear");
 }
 
 //AGREGAR MEDICAMENTOS AL STOCK//
-void agregar_stock() 
+void agregar_stock()
 {
     cin.ignore();
     string nombreedit;
     int val = 0;
+    bool eldato3=false;
 
+    while(!eldato3){
     cout << "\nNombre del medicamento a agregar: ";
     getline(cin, nombreedit);
+
+        if(nombreedit.empty()){
+            cout<<"Por favor ingrese un dato"<<endl;
+        }else{
+            eldato3=true;
+        }
+
+    }
 
     for (int i=0;i<nombreedit.length();i++)
     {
@@ -107,7 +141,7 @@ void agregar_stock()
     bool encontrado = false;
     for (auto & vmedicamentos2 : vmedicamentos)
     {
-        if (vmedicamentos2.nombremedi == nombreedit) 
+        if (vmedicamentos2.nombremedi == nombreedit)
         {
             cout << "Nombre: " << vmedicamentos2.nombremedi << endl;
             cout << "Cantidad: " << vmedicamentos2.cantidad << "\t" << endl;
@@ -139,7 +173,7 @@ void agregar_stock()
 }
 
 //VER MEDICAMENTOS DISPONIBLES//
-void ver_medicamentos() 
+void ver_medicamentos()
 {
     cout << "     *** INICIO DE LISTA ***"<<endl<<endl;
     cout << "********************************" << endl;
@@ -148,29 +182,29 @@ void ver_medicamentos()
     for (int i = 0; i < vmedicamentos.size(); i++)
     {
         cout << "Nombre del medicamento: " << vmedicamentos[i].nombremedi << endl;
-        cout << "Cantidad: " << vmedicamentos[i].cantidad << "\t" << endl; 
+        cout << "Cantidad: " << vmedicamentos[i].cantidad << "\t" << endl;
         cout << "Precio: $ " << vmedicamentos[i].precio << endl;
         cout << "Descripcion: " << vmedicamentos[i].descripcion << "\n"<< endl;
         cout << "********************************" << endl;
     }
-    
+
     cout << "      *** FIN DE LISTA ***"<<endl<<endl;
-    
+
 }
 
 //VER COLA DE PEDIDOS//
-void ver_pedidos() 
+void ver_pedidos()
 {
     queue<string>clon;
     cout << "*******************************" << endl;
-    for (int i = 0; i = cpedido.size(); i++) 
+    for (int i = 0; i = cpedido.size(); i++)
     {
         clon.push(cpedido.front());
         cout << "*" << cpedido.front() << endl;
         cpedido.pop();
     }
-    
-    for (int i = 0; i = clon.size(); i++) 
+
+    for (int i = 0; i = clon.size(); i++)
     {
         cpedido.push(clon.front());
         clon.pop();
@@ -179,10 +213,10 @@ void ver_pedidos()
 }
 
 //VER GANANCIAS OBTENIDAS//
-void ver_ganancias() 
+void ver_ganancias()
 {
     float suma = 0;
-    for (int i = 0; i < pganancia.size(); i++) 
+    for (int i = 0; i < pganancia.size(); i++)
     {
         suma += pganancia.top();
     }
@@ -192,22 +226,33 @@ void ver_ganancias()
 }
 
 //BUSCAR MEDICAMENTOS EN STOCK//
-void buscar() 
+void buscar()
 {
     cin.ignore();
     string val;
     bool existe=false;
+    bool eldato4=false;
+
+    while(!eldato4){
     cout << "Nombre del medicamento: ";
     getline(cin, val);
+
+        if(val.empty()){
+            cout<<"Por favor ingrese un dato"<<endl;
+        }else{
+            eldato4=true;
+        }
+
+    }
 
     for(int i=0;i<val.length();i++)
     {
         val[i] = toupper(val[i]);
     }
 
-    for (int i = 0; i < vmedicamentos.size(); i++) 
+    for (int i = 0; i < vmedicamentos.size(); i++)
     {
-        if (vmedicamentos[i].nombremedi == val) 
+        if (vmedicamentos[i].nombremedi == val)
         {
             cout << "*******************************" << endl;
             cout << "Nombre del medicamento: " << vmedicamentos[i].nombremedi << endl;
@@ -217,8 +262,8 @@ void buscar()
             cout << "*******************************" << endl;
             existe=true;
             break;
-        } 
-       
+        }
+
     }
     if(existe==false){
         cout<<"El medicamento no existe!"<<endl;
@@ -228,9 +273,9 @@ void buscar()
 bool id_pedido(string nombre)
 {
  bool encontrado = true;
-    for (int i = 0; i < vpedidos.size(); i++) 
+    for (int i = 0; i < vpedidos.size(); i++)
     {
-        if (vpedidos[i].nombre_pedido == nombre) 
+        if (vpedidos[i].nombre_pedido == nombre)
         {
             encontrado = false;
             break;
@@ -248,10 +293,10 @@ bool id_pedido(string nombre)
 }
 
 //HISTORIAL DE VENTAS REALIZADAS//
-void historial_ventas() 
+void historial_ventas()
 {
     cout << "*******************************" << endl;
-    for (struct pedido_cliente i : lhistorial) 
+    for (struct pedido_cliente i : lhistorial)
     {
         cout << "Nombre del pedido: " << i.nombre_pedido << endl;
         cout << "Medicamento: " << i.nombre_medi << " Cantidad: " << i.cantidad << endl;
@@ -280,8 +325,18 @@ void eliminar_med()
 {
     cin.ignore();
     string borrar;
+    bool eldato5=false;
+
+    while(!eldato5){
     cout<<"Digite el medicamento a eliminar: ";
     getline(cin,borrar);
+
+        if(borrar.empty()){
+            cout<<"Por favor ingrese un dato"<<endl;
+        }else{
+            eldato5=true;
+        }
+    }
 
     for (int i=0;i<borrar.length();i++)
     {
@@ -311,11 +366,22 @@ void agregar_pedido()
     ///////////////variables a usar y guardar valores//////////////
     string nom_pedido, nom_medi;
     char decicion;
+    bool eldato6=false;
     bool id;
     int existentes, cant_pedido;
     float precio_prod;
+
+    while(!eldato6){
     cout << "Ingrese nombre del cliente: ";
     getline(cin, pedido.nombre_pedido);
+
+        if(pedido.nombre_pedido.empty()){
+            cout<<"Por favor ingrese un dato"<<endl;
+        }else{
+            eldato6=true;
+        }
+
+    }
 
     for (int i=0;i<pedido.nombre_pedido.length();i++)
     {
@@ -340,7 +406,7 @@ void agregar_pedido()
             bool encontrado = false;
             for (int i = 0; i < vmedicamentos.size(); i++) //buscamos si existe el medicamento recorriendo todo el vector de medicamentos
             {
-                if (vmedicamentos[i].nombremedi == nom_medi) 
+                if (vmedicamentos[i].nombremedi == nom_medi)
                 {
                     existentes = vmedicamentos[i].cantidad; // si existe el medicamento, guardamos la cantidad en una variable
                     precio_prod = vmedicamentos[i].precio; //guardamos valor en variable
@@ -349,7 +415,7 @@ void agregar_pedido()
                 }
             }
 
-            if (encontrado) 
+            if (encontrado)
             {
                 pedido.nombre_medi = nom_medi;
                 do
@@ -372,7 +438,7 @@ void agregar_pedido()
                     bool encontrado = false;
                     for (auto & vmedicamentos2 : vmedicamentos)
                     {
-                        if (vmedicamentos2.nombremedi == nom_medi) 
+                        if (vmedicamentos2.nombremedi == nom_medi)
                         {
                             vmedicamentos2.cantidad = existentes; //guardando en el vector de medicamentos
                             encontrado = true;
@@ -388,19 +454,19 @@ void agregar_pedido()
 
                     if (decicion == 'n' || decicion == 'N' || decicion == 'S' || decicion == 's') //validando
                     {
-                    } 
+                    }
                     else
                     {
                     cout << "¡Error al ingresar datos!" << endl << "¡Cerrando pedido!" << endl;
                     decicion = 'n';
                 }
             }
-        } 
-        else 
+        }
+        else
         {
             cout << "\n¡El medicamento no existe!";
         }
-    } 
+    }
     while (decicion == 's' || decicion == 'S');
     cpedido.push(nom_pedido); //cola
 
@@ -410,9 +476,9 @@ void agregar_pedido()
     float suma = 0;
     cout << "\n*******************************" << endl;
     cout << "Nombre del pedido: " << nom_pedido << endl;
-    for (int i = 0; i < vpedidos.size(); i++) 
+    for (int i = 0; i < vpedidos.size(); i++)
     {
-        if (vpedidos[i].nombre_pedido == nom_pedido) 
+        if (vpedidos[i].nombre_pedido == nom_pedido)
         {
             cout << "Medicamento: " << vpedidos[i].nombre_medi << endl;
             cout << "Cantidad: " << vpedidos[i].cantidad << endl;
@@ -430,16 +496,16 @@ void agregar_pedido()
 
 
 //DESPACHAR CLIENTE//
-void despachar() 
+void despachar()
 {
     string despacho;
     float suma;
     despacho = cpedido.front();
     cout << "\n*******************************" << endl;
     cout << "Nombre del pedido: " << despacho << endl;
-    for (int i = 0; i < vmedicamentos.size(); i++) 
+    for (int i = 0; i < vmedicamentos.size(); i++)
     {
-        if (vpedidos[i].nombre_pedido == despacho) 
+        if (vpedidos[i].nombre_pedido == despacho)
         {
             cout << "Medicamento: " << vpedidos[i].nombre_medi << endl;
             cout << "Cantidad: " << vpedidos[i].cantidad << endl;
@@ -463,17 +529,17 @@ void despachar()
 }
 
 //MENU DE ADMINISTRADOR//
-void menu_admin() 
+void menu_admin()
 {
     int opcion;
     bool continuar = true;
-    do 
+    do
     {
         cout << "      .: ADMINISTRADOR :."<<endl;
         cout << "1. Agregar nuevo medicamento" << endl;
         cout << "2. Agregar al stock" << endl;
-        cout << "3. Ver medicamentos" << endl; 
-        cout << "4. Ver cola de pedidos" << endl; 
+        cout << "3. Ver medicamentos" << endl;
+        cout << "4. Ver cola de pedidos" << endl;
         cout << "5. Ver ganancias" << endl;
         cout << "6. Bucar medicamento" << endl;
         cout << "7. Historial de ventas" << endl;
@@ -488,7 +554,7 @@ void menu_admin()
             cin.ignore(132,'\n');
         };
 
-        switch (opcion) 
+        switch (opcion)
         {
             case 1:
                 system("clear");
@@ -533,12 +599,12 @@ void menu_admin()
 }
 
 //MENU DE EMPLEADO//
-void menu_empleado() 
+void menu_empleado()
 {
     int opcion;
     bool continuar = true;
-    do 
-    { 
+    do
+    {
         cout << "     .: EMPLEADO :."<<endl;
         cout << "1. Agregar orden" << endl;
         cout << "2. Consultar pedidos" << endl;
@@ -549,7 +615,7 @@ void menu_empleado()
         cin>>opcion;
         cin.ignore();
 
-        switch (opcion) 
+        switch (opcion)
         {
             case 1:
                 system("clear");
@@ -559,7 +625,7 @@ void menu_empleado()
                 system("clear");
                 ver_pedidos();
                 break;
-            case 3: 
+            case 3:
                 system("clear");
                 buscar();
                 break;
@@ -579,12 +645,12 @@ void menu_empleado()
 }
 
 //MENU PRINCIPAL//
-int main() 
+int main()
 {
     int opcion;
     bool continuar = true;
-    do 
-    {   
+    do
+    {
         cout<<"      .: INICIO :."<<endl;
         cout << "1. Menu Administrador" << endl;
         cout << "2. Menu Empleado" << endl;
@@ -600,22 +666,22 @@ int main()
 
         switch (opcion)
         {
-            case 1: 
+            case 1:
                 system("clear");
                 menu_admin();
                 break;
-            case 2: 
+            case 2:
                 system("clear");
                 menu_empleado();
                 break;
-            case 3: 
+            case 3:
                 cout << "\nAPAGANDO..." << endl;
                 continuar = false;
                 break;
             default: cout << "¡Error al ingresar datos!" << endl;
         }
 
-    } 
+    }
     while (continuar);
     return 0;
 }
