@@ -496,37 +496,48 @@ void agregar_pedido()
 
 
 //DESPACHAR CLIENTE//
-void despachar()
+void despachar() 
 {
     string despacho;
-    float suma;
+    float suma=0,solo_uno=0;
     despacho = cpedido.front();
     cout << "\n*******************************" << endl;
     cout << "Nombre del pedido: " << despacho << endl;
-    for (int i = 0; i < vmedicamentos.size(); i++)
+    for (int i = 0; i < vpedidos.size(); i++) 
     {
-        if (vpedidos[i].nombre_pedido == despacho)
+        if (vpedidos[i].nombre_pedido == despacho) 
         {
             cout << "Medicamento: " << vpedidos[i].nombre_medi << endl;
             cout << "Cantidad: " << vpedidos[i].cantidad << endl;
-            suma = vpedidos[i].precio_pedido;
+            suma += vpedidos[i].precio_pedido;
             lhistorial.insert(lhistorial.end(), vpedidos[i]);
+            solo_uno++;
         }
     }
+    pganancia.push(suma);
     cout << "*******************************" << endl;
     cout << "Total: " << suma << endl;
     cout << "*******************************" << endl;
-    pganancia.push(suma);
+    
+    if(solo_uno>1){
     for (auto iter = vpedidos.begin(); iter != vpedidos.end(); ++iter) {
         if (iter->nombre_pedido == despacho) {
             iter = vpedidos.erase(iter);
-            cout << "Despachado Exitosamente.\n"<< endl;
-
         }
     }
+    }else{
+     for (auto iter = vpedidos.begin(); iter != vpedidos.end(); ++iter) {
+        if (iter->nombre_pedido == despacho) {
+            iter = vpedidos.erase(iter);
+            break;
+        }
+   }
+    }
+    
+    cout << "Despachado Exitosamente.\n"<< endl;
     cpedido.pop();
-
 }
+
 
 //MENU DE ADMINISTRADOR//
 void menu_admin()
