@@ -84,7 +84,7 @@ void nuevomedicamento() {
     do {
         cout << "Ingrese cantidad del medicamento: ";
         while (!(cin >> datos.cantidad)) {
-            cout << "¡Ingrese una cantidad por favor!" << endl;
+            cout << "¡Ingrese una cantidad por favor: ";
             cin.clear();
             cin.ignore(132, '\n');
         };
@@ -94,7 +94,7 @@ void nuevomedicamento() {
     do {
         cout << "Ingrese Precio del medicamento: $ ";
         while (!(cin >> datos.precio)) {
-            cout << "Ingrese una cantidad por favor!" << endl;
+            cout << "Ingrese una cantidad por favor: ";
             cin.clear();
             cin.ignore(132, '\n');
         };
@@ -158,7 +158,7 @@ void agregar_stock() {
             do {
                 cout << "Cantidad a agregar: ";
                 while (!(cin >> val)) {
-                    cout << "¡Error:Ingrese un dato valido!" << endl;
+                    cout << "¡Error:Ingrese un dato valido: ";
                     cin.clear();
                     cin.ignore(132, '\n');
                 };
@@ -570,8 +570,12 @@ void menu_empleado() {
         cout << "4. Despachar cliente" << endl;
         cout << "5. Volver" << endl;
         cout << "Opcion: ";
-        cin>>opcion;
-        cin.ignore();
+
+        while(!(cin>>opcion)){
+            cout<<"Error: ingrese un caracter valido: ";
+            cin.clear();
+            cin.ignore(132,'\n');
+        }
 
         switch (opcion) {
             case 1:
